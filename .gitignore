@@ -15,3 +15,4 @@ __pycache__/helperMethods.cpython-37.pyc
 .idea/October-Hackathon-2019.iml
 .idea/vcs.xml
 .idea/workspace.xml
+*.pyc

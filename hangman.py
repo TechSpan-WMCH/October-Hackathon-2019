@@ -4,22 +4,39 @@ from helperMethods import *
 
 class hangmanGame:
     phrase = ""
+    wrongGuessCounter = 0
+    maxWrongGuesses = 5
+    guessedLetters = []
 
     def setAnswerPhrase(self, newPhrase):
         self.phrase = newPhrase
 
-    def getAnswerPhrase(self):
+    def getAnswerPhrase(self, top):
 
         def submitPhrase():
             phrase = phraseEntry.get()
             self.phrase = phrase
             print("Phrase " + phrase + " assigned.")
             phraseW.destroy()
+            row = 0
+            i = 0
+            for e in phrase:
+                if (e == " "):
+                    print('space found')
+                    row = row + 1
+                    print(row)
+                    i = 0
+                else:
+                    letterLabel = Label(top, text=e, justify=RIGHT, width=1, padx=1, font=('bold', 18))
+                    letterLabel.grid(row=row, column=1+i, padx=1, pady=1)
+                    i = i + 1
 
         def tryToClose():
+            #empty method to override windows "x" close
             return 0
 
         phraseW = Tk()
+        phraseW.title("Enter an an answer phrase:")
 
         # Gets h/w
         windowWidth = phraseW.winfo_reqwidth()
@@ -40,9 +57,6 @@ class hangmanGame:
         phraseSubmit.pack(side=RIGHT)
 
 
-
-
-
     def askForPhrase(self):
         phrase = ""
         #get input from GUI
@@ -50,9 +64,30 @@ class hangmanGame:
 
     def resetGame(self):
         self.phrase = ""
+        self.wrongGuessCounter = 0
 
     def getPhrase(self):
         return self.phrase
+
+    def incWrongGuess(self):
+        self.wrongGuessCounter += 1
+
+    def getWrongGuessCount(self):
+        return self.wrongGuessCounter
+
+    def addToGuessedLetters(self, letter):
+        self.guessedLetters.append(letter)
+
+    def resetGuessedLetters(self):
+        self.guessedLetters = []
+
+    def checkGuessedLetters(self, letter):
+        if letter in self.guessedLetters: return True
+        else: return False
+
+    def isOver(self):
+        if (self.wrongGuessCounter == self.maxWrongGuesses): return True
+        else: return False
 
     def __init__(self):
         self.phrase = ""
